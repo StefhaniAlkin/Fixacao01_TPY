@@ -1,9 +1,5 @@
 # - Atividade de Fixação 1
-
-#     - Vincular com o github (código deve estar no repositório sem o venv ou outros arquivos de configuração);
         
-#         EXTRA (200XP): Os dados devem vir de algum arquivo externo.
-
 import numpy as np
 
 #Array bidimensional
@@ -64,8 +60,9 @@ print(f'\nProduto escalar: \n{produto_escalar}')
 
 #Filtro
 filtro = matriz_danos > 200 
+print(f'\nAtaques críticos: \n{filtro}')
 crit_atk = matriz_danos[filtro]
-print(f'\nAtaques críticos: \n{crit_atk}')
+print(f'\n\nOs ataques críticos foram: {crit_atk}')
 
 #Operação aritmética
 apl_debuff = np.add(matriz_danos, debuff)
@@ -75,9 +72,79 @@ crystal_mw = np.array([1000])
 buff_cmw = np.add(matriz_danos, crystal_mw)
 print(f'\nAtaques buffados (operação aritmética de soma): \n{buff_cmw}')
 
-#Duelo
+#Duelo - teste extra
 rats = np.array([10000, 10000, 10000, 10000])
 duel = np.subtract(rats, buff_cmw)
 print(f'\nDuelo contra rato (operação aritmética de subtração): \n{duel}')
 
 #https://github.com/StefhaniAlkin/Fixacao01_TPY
+################################################
+#Execuções com um arquivo externo
+################################################
+
+print("\n###############################")
+print("Execuções com arquivos externos")
+print("###############################\n")
+
+#Abrindo os arquivos
+npcs = np.genfromtxt('npcs.txt', delimiter=',', dtype='int64')
+debuff = np.genfromtxt('debuff.txt', delimiter=',', dtype='int64')
+pot = np.genfromtxt('potions.txt', delimiter=',', dtype='int64')
+
+#Convertendo para array e dando reshape
+npcs_array = np.array(npcs)
+print(f'\nArray de Personagens: \n{npcs_array}')
+
+npcs_array_reshaped = np.array(npcs_array).reshape((4,4))
+print(f'\nArray reshaped de Personagens: \n{npcs_array_reshaped}')
+
+debuff_array = np.array(debuff)
+print(f'\nArray de Debuffs: \n{debuff_array}')
+
+debuff_array_reshaped = np.array(debuff_array).reshape((4,4))
+print(f'\nArray reshaped de Debuffs: \n{debuff_array_reshaped}')
+
+pot_array = np.array(pot)
+print(f'\nArray de Poções: \n{pot_array}')
+
+
+
+#Axis=0:
+atk_comb_2 = npcs_array_reshaped.mean(axis=0)
+print(f'\nAtaques combinados (axis=0): \n{atk_comb_2}')
+
+#Axis=1
+atk_rate_2 = npcs_array_reshaped.mean(axis=1)
+print(f'\nMédia de dano por personagem (axis=1): \n{atk_rate_2}')
+
+#Sem Axis
+big_dmg_2 = npcs_array_reshaped.sum()
+print(f'\nDano total desse combate (sem axis): \n{big_dmg_2}')
+
+#Transposta da matriz
+t_damage_2 = npcs_array_reshaped.T
+print(f'\nMatriz transposta dos danos: \n{t_damage_2}\n')
+
+#Operação com transposta
+atk_debuffed_2 = np.add(t_damage_2, debuff_array_reshaped)
+print(f'\nAtaques debuffados (operação com transpose): \n{atk_debuffed_2}\n')
+
+#Produto escalar
+solaire_2 = np.array(npcs_array_reshaped[:,0])
+hyper_atk_2 = np.dot(solaire_2, pot_array)
+print(f'\nSuper ataque (produto escalar): \n{hyper_atk_2}')
+
+produto_escalar_2 = np.dot(npcs_array_reshaped, debuff_array_reshaped)
+print(f'\nProduto escalar: \n{produto_escalar_2}')
+
+#Filtro
+filtro_2 = npcs_array_reshaped > 200
+print(f'\nAtaques que critaram: \n{filtro_2}')
+crit_atk_2 = npcs_array_reshaped[filtro_2]
+print(f'\nOs ataques que critaram foram: {crit_atk_2}')
+
+#Operação aritmética
+apl_debuff_2 = np.add(npcs_array_reshaped, debuff_array_reshaped)
+print(f'\nAtaques debuffados (operação aritmética de soma): \n{apl_debuff_2}')
+
+
